@@ -1,120 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<title>DOOM Web Player</title>
-
-<style>
-    body {
-        margin: 0;
-        background: #000000;
-        color: #ffffff;
-        font-family: Arial, sans-serif;
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
-        height: 100vh;
-        overflow: hidden;
-    }
-
-    /* área do jogo */
-    .game-wrapper {
-        position: relative;
-        width: 90vw;
-        max-width: 1100px;
-        height: 80vh;
-
-        background: #000000;
-
-        /* menos arredondado */
-        border: 1px solid #1a1a1a;
-        border-radius: 3px;
-
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
-        overflow: hidden;
-    }
-
-    iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-
-        /* garante preto real dentro do iframe área */
-        background: #000000;
-    }
-
-    /* botão */
-    .controls {
-        margin-top: 10px;
-    }
-
-    button {
-        background: #111;
-        color: #fff;
-        border: 1px solid #2a2a2a;
-        padding: 8px 14px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 13px;
-    }
-
-    button:hover {
-        background: #1b1b1b;
-    }
-
-    /* texto de instruções */
-    .help {
-        margin-top: 8px;
-        font-size: 12px;
-        color: #aaa;
-        text-align: center;
-        max-width: 600px;
-        line-height: 1.4;
-    }
-
-    .title {
-        position: absolute;
-        top: 8px;
-        left: 10px;
-        font-size: 11px;
-        color: #666;
-        user-select: none;
-        z-index: 10;
-    }
-</style>
+  <meta charset="UTF-8">
+  <title>DOOM</title>
+  <script src="https://js-dos.com/6.22/current/js-dos.js"></script>
+  <style>
+    body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; }
+    #game { width: 960px; height: 540px; }
+  </style>
 </head>
-
 <body>
-
-<div class="game-wrapper" id="gameBox">
-    <div class="title">DOOM Web Player</div>
-
-    <iframe src="https://js-dos.com/games/doom.exe.html"></iframe>
-</div>
-
-<div class="controls">
-    <button onclick="toggleFullscreen()">Tela cheia</button>
-</div>
-
-<div class="help">
-    Controles: Sima, baixo, esquerda e direita para mover, Ctrl atirar, espaço para interagir.  
-    Pressione ESC dentro do jogo para liberar o cursor.
-</div>
-
-<script>
-function toggleFullscreen() {
-    const elem = document.getElementById("gameBox");
-
-    if (!document.fullscreenElement) {
-        elem.requestFullscreen();
-    } else {
-        document.exitFullscreen();
-    }
-}
-</script>
-
+  <canvas id="game"></canvas>
+  <script>
+    Dos(document.getElementById("game"), {
+      wdosboxUrl: "https://js-dos.com/6.22/current/wdosbox.js",
+    }).ready(function(fs, main) {
+      fs.extract("/static/doom.ZIP").then(function() {
+        main(["-c", "DOOM.EXE"]);
+      });
+    });
+  </script>
 </body>
 </html>
